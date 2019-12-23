@@ -15,11 +15,13 @@ from scipy.integrate import solve_ivp, RK23
 from scipy.optimize import curve_fit
 import os
 
-def main(V0=None,alf=None):
+def main(V0=None,alf=None,flag=None):
     if V0 is None:
         V0 = float(input("input V0(m/sec): "))
     if alf is None:
         alf = float(input("input alf(degrees): "))
+    if flag is None:
+        flag = float(input("1 - plot image, 0 - not: "))
 
 
     '''
@@ -110,26 +112,20 @@ def main(V0=None,alf=None):
     sol = solve_ivp(fun, [t0, tf], x0, max_step=max_step)
     print(sol)
     vel = fun(sol.t,sol.y[0])
-
-    fig, axes = plt.subplots(figsize=(22,10), nrows=1, ncols=2)
-    ax1 = axes[0]
-    ax2 = axes[1]
-    ax1.plot(sol.t/(3.154*10**13), (sol.y[0]/(3.08*10**19))*(abs(np.cos(alf*0.0175))))
-
-    ax1.set_xlabel('time, millions yaers')
-    ax1.set_ylabel('distance, kpc')
-    ax1.set_title('R(t)')
-
-
-
-    #ax2.plot(sol.y[0]/(3.08*10**19), (vel/1000)*(abs(np.sin(alf*0.0175))))
-    ax2.plot(sol.t/(3.154*10**13), (vel/1000)*(abs(np.sin(alf*0.0175))))
-
-    ax2.set_xlabel('time, millions yaers')
-    ax2.set_ylabel('Velocity, km/sec')
-    ax2.set_title('V(t)')
-
-    plt.show()
+    if (flag==1):
+        fig, axes = plt.subplots(figsize=(22,10), nrows=1, ncols=2)
+        ax1 = axes[0]
+        ax2 = axes[1]
+        ax1.plot(sol.t/(3.154*10**13), (sol.y[0]/(3.08*10**19))*(abs(np.cos(alf*0.0175))))
+        ax1.set_xlabel('time, millions yaers')
+        ax1.set_ylabel('distance, kpc')
+        ax1.set_title('R(t)')
+        #ax2.plot(sol.y[0]/(3.08*10**19), (vel/1000)*(abs(np.sin(alf*0.0175))))
+        ax2.plot(sol.t/(3.154*10**13), (vel/1000)*(abs(np.sin(alf*0.0175))))
+        ax2.set_xlabel('time, millions yaers')
+        ax2.set_ylabel('Velocity, km/sec')
+        ax2.set_title('V(t)')
+        plt.show()
 
     return vel
 
