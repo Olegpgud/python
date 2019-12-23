@@ -6,7 +6,7 @@ import grav.grav_fly as grav_fly
 
 class gravTestCase(unittest.TestCase):
 	def test_int(self):
-		res = grav_fly.main(530000,20)
+		res = grav_fly.main(530000,20,0)
 
 		for i in res:
 			self.assertFalse(i is None)
