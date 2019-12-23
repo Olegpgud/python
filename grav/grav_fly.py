@@ -51,7 +51,7 @@ def main(V0=None,alf=None,flag=None):
     zeropoint = -2.5*np.log10(phot)-21.10-5*np.log10(phot2)+18.692 #hubble zero point
     m = -2.5*np.log10(I0_sersic)+zeropoint
     m_c = m+2.5*np.log10(arc_pix**2)
-    m_abs = m - 5*np.log10((53.6*10**6)/10)-0.1
+    m_abs = m - 5*np.log10((53.6e6)/10)-0.1
     m_abs_m = m_abs+2.5*np.log10(arc_pix**2*0.260**2*9.5e38)
     I0_c = 10**((m_abs_m-3.82)/-2.5)*(3.08e16)**2
     I0 = 3.8*10**26*10**((m_abs_m-3.82)/-2.5)
