@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
-#import matplotlib.pyplot as plt
 import numpy as np
 from astropy.io import fits
 from astropy.table import Table
@@ -39,6 +38,7 @@ def main(V0=None,alf=None,flag=None):
         alf = float(input("input alf(degrees): "))
     if flag is None:
         flag = float(input("1 - plot image, 0 - not: "))
+    print(flag)
 
     path=os.path.dirname(os.path.abspath(__file__) )
     image_hst = fits.open(os.path.join(path,'hst_14219_34_wfc3_ir_f110w_drz.fits'),memmap=True)
@@ -98,14 +98,10 @@ def main(V0=None,alf=None,flag=None):
     max_step=tf/100
 
     x0=np.array([1])
-    sol = solve_ivp(fun, [t0, tf], x0, max_step=max_step)
-    if (sol.success == False):
-        return
-    else:
-        vel = fun(sol.t,sol.y[0])
-        return vel 
-    if (flag==1):
-        import matplotlib.pyplot as plt
+    sol = solve_ivp(fun, [t0, tf], x0, max_step=max_step) 
+    vel = fun(sol.t,sol.y[0])
+    if (flag==1):  
+        import matplotlib.pyplot as plt     
         print(sol)
         fig, axes = plt.subplots(figsize=(22,10), nrows=1, ncols=2)
         ax1 = axes[0]
@@ -119,6 +115,10 @@ def main(V0=None,alf=None,flag=None):
         ax2.set_ylabel('Velocity, km/sec')
         ax2.set_title('V(t)')
         plt.show()
+    if (sol.success == False):
+        return
+    else:        
+        return vel
 
 
 
